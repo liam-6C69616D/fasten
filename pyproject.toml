@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fasten"
+version = "0.1.0"
+
+[project.scripts]
+fasten = "src.main:fasten"
+
+[tool.setuptools]
+packages = ["src"]
