@@ -7,7 +7,7 @@ name = "fasten"
 version = "0.1.0"
 
 [project.scripts]
-fasten = "src.main:fasten"
+fasten = "src.main:app"
 
 [tool.setuptools]
 packages = ["src"]
