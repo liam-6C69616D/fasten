@@ -1,6 +1,8 @@
 import typer
-from src.commands import Initialise
+from src.commands import Initialise, Generate
 from src.commands.exceptions import WorkingDirNotExists
+from pathlib import Path
+from typing import Annotated
 
 app = typer.Typer(no_args_is_help=True)
 
@@ -29,6 +31,13 @@ def init(
 
 
 @app.command()
-def generate(name: str):
+def generate(
+    name: str,
+    fields: list[str]
+):
     """Generate a new MVC stack for `name`"""
-    print(name)
+    # TODO: Check we are in project root and can find repos, services and routes folders
+    working_dir = Path.cwd()
+    process = Generate(working_dir, name, fields)
+
+    process.run()
