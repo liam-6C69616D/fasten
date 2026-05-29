@@ -4,25 +4,32 @@ The fasten CLI tool is a convention based devtool which helps speed up initialis
 
 ## Commands (WIP)
 
-`fasten init` - Generate a new project
+`fasten init <working_directory>` - Generate a new project in \<working_directory>
 
 ```
 src/
-├── routes/
-│   └── dependencies.py
-├── services/
 ├── repos/
-│   └── base.py
+│   └── base.py                 # Abstract base class for repos to be built on top of 
+├── routes/
+│   └── dependencies.py         # FastAPI dependency handling for efficient passthrough between layers
+├── services/
 ├── utils/
-│   └── types.py
-└── main.py
+│   ├── database_connection.py  # Abstract base class for database connections to be built on top of
+│   └── types.py                # Pydantic types used throughout the API
+└── main.py                     # Entrypoint
 ```
 
-`fasten generate NAME --fields f1:int f2:str f3:list[str]` - Creates a new CRUD stack for NAME - Add new repo class which extends base.py - Add new service which calls the repo - Add new route which returns the response from service using response_type
+`fasten generate NAME --fields f1:int f2:str f3:list[str]` 
+- Creates a new CRUD stack for NAME
+    - New types for NAME
+    - simple vs complex where it can use just 1 type or has 3 (Type, CreateType, UpdateType)
+- Add new repo class which extends base.py
+- Add new service which calls the repo
+- Add new route which returns the response from service using response_type
 
 ## fasten.yaml
 
-```yaml
+```
 fasten:
     version: "1.0"
     async: true # Make function calls async

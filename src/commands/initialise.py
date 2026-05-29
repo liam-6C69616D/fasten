@@ -8,25 +8,30 @@ class Initialise():
         self._create_wd = create_wd
 
     def run(self):
+        """Runs project setup"""
         if not self._check_wd():
             self._handle_create_wd()
 
-        self._setup_folders()
-        self._setup_files()
+        self._setup_templates()
 
     def _handle_create_wd(self):
+        """Creates the working directory for the project if specified"""
         if self._create_wd:
             self._working_dir.mkdir(parents=True)
         else:
             raise WorkingDirNotExists("Working directory does not exist")
 
     def _check_wd(self):
+        """Checks if the working directory exists"""
         return self._working_dir.exists()
 
-    def _setup_folders(self):
-        folders = ["routes", "services", "repos"]  # TODO: extract to a config file
-        for folder in folders:
-            (self._working_dir / folder).mkdir(exist_ok=True)
+    def _setup_templates(self):
+        """Makes the folders for the project"""
+        path = Path(__file__).parent.parent / "init_templates"
+        templates = [p for p in path.rglob("*")]
 
-    def _setup_files(self):
-        pass
+        for item in templates:
+            if item.is_dir():
+                (self._working_dir / item.relative_to(path)).mkdir(exist_ok=True)
+            else:
+                (self._working_dir / item.relative_to(path)).write_bytes((path / item).read_bytes())
